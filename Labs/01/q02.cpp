@@ -16,6 +16,10 @@ class Exam {
         void displayDetails() {
             cout << "Student Name : " << studentName << endl << "Date : " << date << endl << "Score : " << *score << endl;
         }
+
+        ~Exam() {
+            delete score;
+        }
 };
 
 int main () {
