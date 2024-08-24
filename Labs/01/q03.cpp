@@ -32,20 +32,19 @@ class Document {
 };
 
 int main () {
-    Document d1("Sample text 1");
+    Document d1("Sample text");
     Document d2(d1);
     Document d3;
-    d3 = d2;
+    d3 = d1;
 
-    cout << "Before changing value of text" << endl;
+    cout << "Before changing value of text in original document" << endl;
     cout << "Text in document 1 : " << d1.getText() << endl;
     cout << "Text in document 2 : " << d2.getText() << endl;
     cout << "Text in document 3 : " << d3.getText() << endl;
 
-    d2.setText("Sample text 2");
-    d3.setText("Sample text 3");
+    d1.setText("Text changed");
 
-    cout << endl << "After changing value of text" << endl;
+    cout << endl << "After changing value of text in original document" << endl;
     cout << "Text in document 1 : " << d1.getText() << endl;
     cout << "Text in document 2 : " << d2.getText() << endl;
     cout << "Text in document 3 : " << d3.getText() << endl;
