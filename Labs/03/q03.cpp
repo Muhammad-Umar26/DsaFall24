@@ -58,6 +58,14 @@ class SinglyLinkedList {
             }
             cout << "NULL" << endl;
         }
+
+        ~SinglyLinkedList() {
+            while(head) {
+                Node* temp = head;
+                head = head->next;
+                delete temp;
+            }
+        }
 };
 
 int main () {
