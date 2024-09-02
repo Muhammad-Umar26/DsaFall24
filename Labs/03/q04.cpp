@@ -111,21 +111,24 @@ class DoublyLinkedList {
             }
         }
 
-        void printList() {
-            if(!head) return;
-
+        void printListForward() {
             Node* curr = head;
 
-            cout << "Forward Traverse" << endl;
-            while(curr->next) {
-                cout << curr->val << " -> ";
+            while(curr) {
+                cout << curr->val << " <-> ";
                 curr = curr->next;
             }
-            cout << curr->val << " -> " << "NULL" << endl;
+            cout << "NULL" << endl;
+        }
 
-            cout << endl << "Backward Traverse" << endl;
+        void printListBackward() {
+            Node* curr = head;
+            while(curr && curr->next) {
+                curr = curr->next;
+            }
+
             while(curr) {
-                cout << curr->val << " -> ";
+                cout << curr->val << " <-> ";
                 curr = curr->prev;
             }
             cout << "NULL" << endl;
@@ -147,28 +150,25 @@ int main () {
     dll.insertAtFront(3);
     dll.insertAtFront(4);
 
-    dll.printList();
+    dll.printListForward();
 
     dll.insertAtEnd(5);
     dll.insertAtEnd(6);
     dll.insertAtEnd(7);
     dll.insertAtEnd(8);
 
-    cout << endl << endl;
-    dll.printList();
+    dll.printListForward();
 
     dll.insertBeforeValue(5, 9);
     dll.insertAfterValue(2, 10);
 
-    cout << endl << endl;
-    dll.printList();
+    dll.printListForward();
 
     dll.deleteAtFront();
     dll.deleteAtEnd();
     dll.deleteParticularValue(1);
 
-    cout << endl << endl;
-    dll.printList();
+    dll.printListForward();
     
     return 0;
 }
