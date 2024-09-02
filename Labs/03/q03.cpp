@@ -3,11 +3,13 @@
 using namespace std;
 
 class Node {
+    int val;
+    Node* next;
+
     public:
-        int val;
-        Node* next;
-        
         Node(int val = 0, Node* next = nullptr) : val(val), next(next) {}
+
+        friend class SinglyLinkedList;
 };
 
 class SinglyLinkedList {
