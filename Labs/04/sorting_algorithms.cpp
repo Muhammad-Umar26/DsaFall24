@@ -84,7 +84,7 @@ void printArray(int arr[], int n) {
 
 int main() {
     int n = 5;
-    int arr[5] = {9, 13, 3, 2, 5};
+    int arr[n] = {9, 13, 3, 2, 5};
 
     cout << "Before sorting Array" << endl;
     printArray(arr, n);
