@@ -2,7 +2,7 @@
 
 using namespace std;
 
-void sort(int arr[], int n, int i, int j) {
+void sort(int arr[], int n, int i = 0, int j = 1) {
     if(i == n - 1 || j == n) {
         return;
     }
@@ -30,7 +30,7 @@ int main() {
     cout << "Before sorting" << endl;
     printArray(arr, n);
 
-    sort(arr, n, 0, 1);
+    sort(arr, n);
 
     cout << endl << "After sorting" << endl;
     printArray(arr, n);
