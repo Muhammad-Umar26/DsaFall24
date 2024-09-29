@@ -41,6 +41,10 @@ class Stack {
             }
             return arr[top];
         }
+
+        ~Stack() {
+            delete [] arr;
+        }
 };
 
 int main() {
