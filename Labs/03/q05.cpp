@@ -25,13 +25,36 @@ class DoublyLinkedList {
         }
 
         void sort() {
-            for(Node* curr1 = head; curr1; curr1 = curr1->next) {
-                for(Node* curr2 = curr1->next; curr2; curr2 = curr2->next) {
-                    if(curr2->val < curr1->val) {
-                        swap(curr1->val, curr2->val);
+            Node* sortedHead = nullptr;
+            Node* currSorted = nullptr;
+            while(head) {
+                Node* mini = head;
+                for(Node* curr = head->next; curr; curr = curr->next) {
+                    if(curr->val < mini->val) {
+                        mini = curr;
                     }
                 }
+
+                if(mini != head) {
+                    mini->prev->next = mini->next;
+                } else {
+                    head = head->next;
+                }
+
+                if(mini->next) mini->next->prev = mini->prev;
+
+                if(!sortedHead) {
+                    sortedHead = mini;
+                    mini->prev = nullptr;
+                } else {
+                    currSorted->next = mini;
+                    mini->prev = currSorted;
+                }
+                
+                currSorted = mini;
+                mini->next = nullptr;
             }
+            head = sortedHead;
         }
 
         void removeDuplicates() {
