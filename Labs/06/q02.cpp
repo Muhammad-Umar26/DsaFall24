@@ -1,5 +1,6 @@
 #include <iostream>
 #include <algorithm>
+#include <ctype.h>
 
 using namespace std;
 
@@ -12,7 +13,7 @@ class Stack {
     };
 
     Node* head;
-    
+
     public :
         Stack() : head(nullptr) {}
 
@@ -65,22 +66,20 @@ string infixToPostfix(string& s) {
     Stack st;
 
     for(char& c : s) {
-        if(c >= 'A' && c <= 'Z') {
+        if(isalnum(c)) {
             postfix += c;
-        } else {
-            if(c == '(') {
-                st.push(c);
-            } else if(c == ')'){
-                while(!st.isEmpty() && st.peek() != '(') {
-                    postfix += st.pop();
-                }
-                st.pop();
-            } else {
-                while(!st.isEmpty() && precedence(c) < precedence(st.peek())) {
-                    postfix += st.pop();
-                }
-                st.push(c);
+        } else if(c == '(') {
+            st.push(c);
+        } else if(c == ')'){
+            while(!st.isEmpty() && st.peek() != '(') {
+                postfix += st.pop();
             }
+            st.pop();
+        } else {
+            while(!st.isEmpty() && precedence(c) <= precedence(st.peek())) {
+                postfix += st.pop();
+            }
+            st.push(c);
         }
     }
 
@@ -92,18 +91,46 @@ string infixToPostfix(string& s) {
 }
 
 string infixToPrefix(string s) {
+    // Reverse the infix expression
     reverse(s.begin(), s.end());
 
-    for(int i = 0; i < s.size(); ++i) {
-        if(s[i] == '(') {
-            s[i] = ')';
-        } else if(s[i] == ')') {
-            s[i] = '(';
+    // Swap '(' with ')' and vice versa to adjust for reversed expression
+    for(char& c: s) {
+        if(c == '(') {
+            c = ')';
+        } else if(c == ')') {
+            c = '(';
         }
     }
 
-    string prefix = infixToPostfix(s);
+    string prefix = "";
+    Stack st;
 
+    for(char& c : s) {
+        if(isalnum(c)) {
+            prefix += c;
+        } else if(c == '(') {
+            st.push(c);
+        } else if(c == ')'){
+            while(!st.isEmpty() && st.peek() != '(') {
+                prefix += st.pop();
+            }
+            st.pop();
+        } else { 
+            // Modified operator handling for prefix
+            // Step 4: Handle operators with precedence and associativity
+            while(!st.isEmpty() && (precedence(c) < precedence(st.peek()) || (c == '^' && st.peek() == '^'))) {
+                prefix += st.pop();
+            }
+            st.push(c);
+        }
+    }
+
+    while(!st.isEmpty()) {
+        prefix += st.pop();
+    }
+
+    // Reverse the result to get the correct prefix expression
     reverse(prefix.begin(), prefix.end());
 
     return prefix;
@@ -111,7 +138,8 @@ string infixToPrefix(string s) {
 
 int main() {
     string s = "K+L-M*N+(O^P)*W/U/V*T+Q";
-    cout << infixToPrefix(s);
+
+    cout << "Infix : " << s << endl << "Postfix : " << infixToPostfix(s) << endl << "Prefix : " << infixToPrefix(s) << endl;
 
     return 0;
 }
