@@ -79,7 +79,7 @@ void printArray(int arr[], int n) {
     cout << endl;
 }
 
-int main(){
+int main() {
     int arr[] = {96, 42, 34, 93, 100, 69, 342, 180, 249, 202};
     int n = sizeof(arr) / sizeof(arr[0]);
 
