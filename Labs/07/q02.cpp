@@ -1,7 +1,5 @@
 #include <iostream>
 
-#define size 10
-
 using namespace std;
 
 class Runner {
