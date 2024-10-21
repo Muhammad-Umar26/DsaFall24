@@ -68,7 +68,7 @@ class BinaryTree {
         
         void zigZagOrder() {
             queue<Node*> q;
-            if(!root) q.push(root);
+            if(root) q.push(root);
 
             int level = 1;
             while(!q.empty()) {
