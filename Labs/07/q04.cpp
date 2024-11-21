@@ -56,7 +56,7 @@ void descendingCountSort(int arr[], int n, int exp) {
     }
 }
 
-void ascendingRadixsort(int arr[], int n) {
+void ascendingRadixSort(int arr[], int n) {
     int m = getMax(arr, n);
 
     for(int exp = 1; m / exp > 0; exp *= 10) {
@@ -64,7 +64,7 @@ void ascendingRadixsort(int arr[], int n) {
     }
 }
 
-void descendingRadixsort(int arr[], int n) {
+void descendingRadixSort(int arr[], int n) {
     int m = getMax(arr, n);
 
     for(int exp = 1; m / exp > 0; exp *= 10) {
@@ -80,20 +80,20 @@ void printArray(int arr[], int n) {
 }
 
 int main() {
-    int arr[] = {96, 42, 34, 93, 100, 69, 342, 180, 249, 202};
+    int arr[] = {36, 987, 654, 2, 20, 99, 456, 957, 555, 420, 66, 3};
     int n = sizeof(arr) / sizeof(arr[0]);
 
-    cout << "Given Array:" << endl;
+    cout << "Given Array : ";
     printArray(arr, n);
 
-    ascendingRadixsort(arr, n);
-    
-    cout << endl << "Array sorted in ascending order:" << endl;
+    ascendingRadixSort(arr, n);
+
+    cout << endl << "Ascending order : ";
     printArray(arr, n);
 
-    descendingRadixsort(arr, n);
+    descendingRadixSort(arr, n);
     
-    cout << endl << "Array sorted in descending order:" << endl;
+    cout << endl << "Descending order : ";
     printArray(arr, n);
 
     return 0;
