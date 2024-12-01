@@ -9,7 +9,7 @@ class Library {
     vector<vector<int>> table;
 
     int getIndex(int key) {
-        return key % size;
+        return key / 100;
     }
 
     public:
