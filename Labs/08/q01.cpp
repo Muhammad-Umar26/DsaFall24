@@ -3,15 +3,15 @@
 
 using namespace std;
 
-struct Node {
-    char val;
-    Node* left;
-    Node* right;
-
-    Node(char val, Node* left = nullptr, Node* right = nullptr) : val(val), left(left), right(right) {}
-};
-
 class BinaryTree {
+    struct Node {
+        char val;
+        Node* left;
+        Node* right;
+
+        Node(char val, Node* left = nullptr, Node* right = nullptr) : val(val), left(left), right(right) {}
+    };
+
     Node *root;
 
     void dfsHelper(Node* node) {
@@ -76,17 +76,39 @@ class BinaryTree {
                 Node* curr = q.front();
                 q.pop();
 
-                ans += curr->val;
-
-                if(curr->left) {
+                if(curr) {
+                    ans += curr->val;
                     q.push(curr->left);
-                }
-
-                if(curr->right) {
                     q.push(curr->right);
+                } else {
+                    ans += '#';
                 }
             }
             return ans;
+        }
+
+        void constructFromString(const string s) {
+            if(s.empty()) return;
+
+            root = new Node(s[0]);
+
+            queue<Node*> q;
+            q.push(root);
+            for(int i = 1; i < s.size(); ++i) {
+                Node* curr = q.front();
+                q.pop();
+
+                if(s[i] != '#') {
+                    curr->left = new Node(s[i]);
+                    q.push(curr->left);
+                }
+                ++i;
+
+                if(i < s.size() && s[i] != '#') {
+                    curr->right = new Node(s[i]);
+                    q.push(curr->right);
+                }
+            }
         }
 
         void dfs() {
@@ -115,9 +137,7 @@ int main() {
     string stringFromTree = bt.readTreeLevelOrder();
 
     BinaryTree newBt;
-    for(char& c : stringFromTree) {
-        newBt.insertNode(c);
-    }
+    newBt.constructFromString(stringFromTree);
 
     cout << endl << "New Constructed Binary tree : " << endl;
     newBt.dfs();
