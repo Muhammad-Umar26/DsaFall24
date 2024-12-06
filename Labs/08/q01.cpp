@@ -84,6 +84,10 @@ class BinaryTree {
                     ans += '#';
                 }
             }
+
+            while(!ans.empty() && ans.back() == '#') {
+                ans.pop_back();
+            }
             return ans;
         }
 
@@ -135,6 +139,7 @@ int main() {
     bt.dfs();
 
     string stringFromTree = bt.readTreeLevelOrder();
+    cout << stringFromTree << endl;
 
     BinaryTree newBt;
     newBt.constructFromString(stringFromTree);
