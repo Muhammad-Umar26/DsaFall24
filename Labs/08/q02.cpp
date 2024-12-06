@@ -1,18 +1,17 @@
 #include <iostream>
 #include <queue>
-#include <algorithm>
 
 using namespace std;
 
-struct Node {
-    int val;
-    Node* left;
-    Node* right;
-
-    Node(int val, Node* left = nullptr, Node* right = nullptr) : val(val), left(left), right(right) {}
-};
-
 class BinaryTree {
+    struct Node {
+        int val;
+        Node* left;
+        Node* right;
+
+        Node(int val, Node* left = nullptr, Node* right = nullptr) : val(val), left(left), right(right) {}
+    };
+
     Node *root;
 
     void dfsHelper(Node* node) {
