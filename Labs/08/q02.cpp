@@ -1,6 +1,5 @@
 #include <iostream>
 #include <queue>
-#include <vector>
 #include <algorithm>
 
 using namespace std;
@@ -72,12 +71,16 @@ class BinaryTree {
 
             int level = 1;
             while(!q.empty()) {
-                vector<int> temp;
+                deque<int> temp;
                 for(int size = q.size(); size; --size) {
                     Node* curr = q.front();
                     q.pop();
 
-                    temp.push_back(curr->val);
+                    if(level & 1) {
+                        temp.push_back(curr->val);
+                    } else {
+                        temp.push_front(curr->val);
+                    }
 
                     if(curr->left) {
                         q.push(curr->left);
@@ -86,10 +89,6 @@ class BinaryTree {
                     if(curr->right) {
                         q.push(curr->right);
                     }
-                }
-
-                if(!(level % 2)) {
-                    reverse(temp.begin(), temp.end());
                 }
                 
                 cout << "Level " << level++ << " : ";
@@ -123,7 +122,7 @@ int main() {
     cout << "Original Binary tree : " << endl;
     bt.dfs();
 
-    cout << "Zigzag Binary tree : " << endl;
+    cout << endl << "Zigzag Binary tree : " << endl;
     bt.zigZagOrder();
 
     return 0;
