@@ -12,10 +12,6 @@ class University {
         return key % capacity;
     }
 
-    int hash2(int key) {
-        return 5 - key % 5;
-    }
-
     float getLoadFactor() {
         return (float)size / capacity;
     }
@@ -32,7 +28,7 @@ class University {
 
                 int i = 1;
                 while(newTable[index] != -1) {
-                    index = (idx + i * hash2(num)) % capacity;
+                    index = (idx + i * i) % capacity;
                     ++i;
                 }
                 newTable[index] = num;
@@ -52,7 +48,7 @@ class University {
 
             int i = 1;
             while(table[index] != -1) {
-                index = (idx + i * hash2(key)) % capacity;
+                index = (idx + i * i) % capacity;
                 ++i;
             }
             table[index] = key;
@@ -70,7 +66,7 @@ class University {
 
             int i = 1;
             while(table[index] != key) {
-                index = (idx + i * hash2(key)) % capacity;
+                index = (idx + i * i) % capacity;
                 ++i;
                 if(index == originalIndex) return false;
             }
@@ -84,7 +80,7 @@ class University {
 
             int i = 1;
             while(table[index] != key) {
-                index = (idx + i * hash2(key)) % capacity;
+                index = (idx + i * i) % capacity;
                 ++i;
                 if(index == originalIndex) return;
             }
