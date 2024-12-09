@@ -4,103 +4,105 @@
 using namespace std;
 
 class BankingSystem {
-    vector<int> arr;
-    int tableSize;
+    int size;
+    vector<int> table;
 
-    int hash_function(int num) {
-        return num % tableSize;
+    int primaryHash(int id) {
+        return id % size;
     }
 
-    int hash_function2(int num) {
-        return 7 - (num % 7); 
+    int secondaryHash(int id) {
+        return 7 - (id % 7);
     }
-    
-public:
-    BankingSystem() : tableSize(11), arr(11, -1) {}
 
-    void insert(int bookId) {
-        int hash1 = hash_function(bookId);
-        int hash2 = hash_function2(bookId);
+    public:
+        BankingSystem(int size = 10) : size(size) {
+            table.resize(size, -1);
+        }
 
-        for(int i=0;i < tableSize ;  i++) {
-            int index = (hash1 + i * hash2) % tableSize;
-            if (arr[index] == -1) {
-                arr[index] = bookId;
-                cout << "Inserted " << bookId << " at index " << index << endl;
-                return;
+        void insertAccountNo(int id) {
+            int idx = primaryHash(id);
+            int index = idx;
+
+            int i = 1;
+            while(table[index] != -1) {
+                index = (idx + i * secondaryHash(id)) % size;
+                ++i;
+            }
+            table[index] = id;
+        }
+
+        bool searchAccountNo(int id) {
+            int idx = primaryHash(id);
+            int index = idx;
+            int originalIndex = index;
+
+            int i = 1;
+            while(table[index] != id) {
+                index = (idx + i * secondaryHash(id)) % size;
+                ++i;
+                if(index == originalIndex) return false;
+            }
+            return true;
+        }
+
+        void deleteAccountNo(int id) {
+            int idx = primaryHash(id);
+            int index = idx;
+            int originalIndex = index;
+
+            int i = 1;
+            while(table[index] != id) {
+                index = (idx + i * secondaryHash(id)) % size;
+                ++i;
+                if(index == originalIndex) return;
+            }
+            table[index] = -1;
+        }
+
+        void displayTable() {
+            for(int i = 0; i < size; ++i) {
+                cout << i << ": ";
+                if(table[i] != -1) {
+                    cout << table[i];
+                }
+                cout << endl;
             }
         }
-
-        cout << "Hash table is full. Cannot insert " << bookId << endl;
-    }
-
-    void search(int searchKey) {
-        int hash1 = hash_function(searchKey);
-        int hash2 = hash_function2(searchKey);
-        for(int i=0;i < tableSize ;  i++) {
-            int index = (hash1 + i * hash2) % tableSize;
-            if (arr[index] == searchKey) {
-                cout << "ID " << searchKey << " found at index " << index << endl;
-                return;
-            }
-        }
-
-        cout << "ID " << searchKey << " not found" << endl;
-    }
-
-    void deleteVal(int deleteKey) {
-        int hash1 = hash_function(deleteKey);
-        int hash2 = hash_function2(deleteKey);
-
-        for(int i=0;i < tableSize ;  i++) {
-            int index = (hash1 + i * hash2) % tableSize;
-            if (arr[index] == deleteKey) {
-                arr[index] = -1;
-                cout << "ID " << deleteKey << " deleted successfully" << endl;
-                return;
-            }
-        }
-
-        cout << "ID " << deleteKey << " not found" << endl;
-    }
-
-    void print() {
-        for (int i = 0; i < tableSize; i++) {
-            if (arr[i] == -1)
-                cout << "EMPTY ";
-            else
-                cout << arr[i] << " ";
-        }
-        cout << endl;
-    }
 };
 
 int main() {
-    BankingSystem bs;
+    BankingSystem bankingSystem(11);
 
-    bs.insert(101);
-    bs.insert(111);
-    bs.insert(121);
-    bs.insert(131);
-    bs.insert(141);
-    bs.insert(151);
-    bs.print();
+    cout << "Inserting account numbers: 101, 111, 121, 131, 141, 151" << endl;
+    bankingSystem.insertAccountNo(101);
+    bankingSystem.insertAccountNo(111);
+    bankingSystem.insertAccountNo(121);
+    bankingSystem.insertAccountNo(131);
+    bankingSystem.insertAccountNo(141);
+    bankingSystem.insertAccountNo(151);
 
-    bs.search(111);
-    bs.search(141);
-    bs.search(161);
+    cout << "Hash Table after inserting account numbers:" << endl;
+    bankingSystem.displayTable();
 
-    bs.deleteVal(111);
-    bs.print();
-    bs.deleteVal(131);
-    bs.print();
+    cout << endl << "Searching for account numbers:" << endl;
+    cout << "111: " << (bankingSystem.searchAccountNo(111) ? "Found" : "Not Found") << endl;
+    cout << "141: " << (bankingSystem.searchAccountNo(141) ? "Found" : "Not Found") << endl;
+    cout << "161: " << (bankingSystem.searchAccountNo(161) ? "Found" : "Not Found") << endl;
 
-    cout << "Inserting 161" << endl;
-    bs.insert(161);
-    bs.print();
-    cout << "Inserting 171" << endl;
-    bs.insert(171);
-    bs.print();
+    cout << endl << "Deleting account numbers 111, 131:" << endl;
+    bankingSystem.deleteAccountNo(111);
+    bankingSystem.deleteAccountNo(131);
+
+    cout << "Hash Table after deleting 111, 131:" << endl;
+    bankingSystem.displayTable();
+
+    cout << endl << "Inserting account numbers 161, 171 to demonstrate how secondary formula resolves collisions:" << endl;
+    bankingSystem.insertAccountNo(161);
+    bankingSystem.insertAccountNo(171);
+
+    cout << "Hash Table after inserting 161, 171:" << endl;
+    bankingSystem.displayTable();
 
     return 0;
 }
